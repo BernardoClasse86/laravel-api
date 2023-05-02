@@ -26,10 +26,10 @@ class ProjectController extends Controller
 
         if ($trashed_data) {
 
-            $projects = Project::onlyTrashed()->where('user_id', $user_id)->get();
+            $projects = Project::onlyTrashed()->with('type', 'technologies')->get();
         } else {
 
-            $projects = Project::where('user_id', $user_id)->get();
+            $projects = Project::with('type', 'technologies')->get();
             // $projects = Project::all();
         }
 
