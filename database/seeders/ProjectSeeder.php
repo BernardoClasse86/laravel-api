@@ -25,7 +25,7 @@ class ProjectSeeder extends Seeder
         $project_technology_ids = Technology::all()->pluck('id')->all();
         $project_user_ids = User::all()->pluck('id')->all();
 
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 30; $i++) {
 
             $project = new Project();
 
