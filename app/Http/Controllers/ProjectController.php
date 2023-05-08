@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProjectController extends Controller
@@ -62,11 +63,15 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-
         $validated_data = $request->validated();
 
         $validated_data['slug'] = Str::slug($validated_data['title']);
         $validated_data['user_id'] = Auth::id();
+
+        if ($request->hasFile('image')) {
+            $cover_path = Storage::put('uploads', $validated_data['image']);
+            $validated_data['cover_image'] = $cover_path;
+        }
 
         $newProject = Project::create($validated_data);
 
@@ -120,6 +125,15 @@ class ProjectController extends Controller
             $validated_data['slug'] = Str::slug($validated_data['title']);
         }
 
+        if ($request->hasFile('image')) {
+            $cover_path = Storage::put('uploads', $validated_data['image']);
+            $validated_data['cover_image'] = $cover_path;
+
+            if ($project->cover_image && Storage::exists($project->cover_image)) {
+                Storage::delete($project->cover_image);
+            }
+        }
+
         $project->update($validated_data);
 
         if (isset($validated_data['technologies'])) {
@@ -155,6 +169,10 @@ class ProjectController extends Controller
     {
 
         if ($project->trashed()) {
+
+            if ($project->cover_image && Storage::exists($project->cover_image)) {
+                Storage::delete($project->cover_image);
+            }
 
             $project->forceDelete();
 

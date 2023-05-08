@@ -9,7 +9,7 @@
 
     <div class="container">
 
-        <form action="{{route('projects.store')}}" method="POST">
+        <form action="{{route('projects.store')}}" method="POST" enctype="multipart/form-data">
 
             @csrf
 
@@ -17,6 +17,14 @@
                 <label for="title" class="col-form-label">Project Title</label>       
                 <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{old('title')}}">
                 @error('title')
+                    <div class="invalid-feedback mt-2">{{$message}}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="image" class="col-form-label">Project image</label>       
+                <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" value="{{old('image')}}" aria-describedby="titleHelp">
+                @error('image')
                     <div class="invalid-feedback mt-2">{{$message}}</div>
                 @enderror
             </div>

@@ -33,7 +33,15 @@
         <div class="my-card">
 
             <div class="my-row heading">
+                
                 <img class="project-thumb" src="/images/default-project.png" alt="computer-thumb">
+
+                @if ($project->cover_image)
+                    <div class="project_image">
+                        <img src="{{asset('storage/' . $project->cover_image)}}" alt="">
+                    </div>    
+                @endif
+
                 @if ($project->type)
                     <div><span class="badge text-bg-info">{{$project->type->name}}</span></div>
                 @endif
@@ -43,6 +51,7 @@
                 @endif
             </div>
 
+    
             <div class="my-row details">
                 <div>
                     Project Date: {{$project->project_date}}

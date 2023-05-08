@@ -20,7 +20,8 @@ class Project extends Model
         'project_date',
         'slug',
         'type_id',
-        'user_id'
+        'user_id',
+        'cover_image'
     ];
 
     public function type()
